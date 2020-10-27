@@ -1,0 +1,10 @@
+D:\C#\APIBoardManager\BoardManager_Data\bin\Debug\netcoreapp3.1\BoardManager_Data.deps.json
+D:\C#\APIBoardManager\BoardManager_Data\bin\Debug\netcoreapp3.1\BoardManager_Data.dll
+D:\C#\APIBoardManager\BoardManager_Data\obj\Debug\netcoreapp3.1\BoardManager_Data.csprojAssemblyReference.cache
+D:\C#\APIBoardManager\BoardManager_Data\obj\Debug\netcoreapp3.1\BoardManager_Data.AssemblyInfoInputs.cache
+D:\C#\APIBoardManager\BoardManager_Data\obj\Debug\netcoreapp3.1\BoardManager_Data.AssemblyInfo.cs
+D:\C#\APIBoardManager\BoardManager_Data\bin\Debug\netcoreapp3.1\BoardManager_Data.runtimeconfig.json
+D:\C#\APIBoardManager\BoardManager_Data\bin\Debug\netcoreapp3.1\BoardManager_Data.runtimeconfig.dev.json
+D:\C#\APIBoardManager\BoardManager_Data\bin\Debug\netcoreapp3.1\BoardManager_Data.pdb
+D:\C#\APIBoardManager\BoardManager_Data\obj\Debug\netcoreapp3.1\BoardManager_Data.dll
+D:\C#\APIBoardManager\BoardManager_Data\obj\Debug\netcoreapp3.1\BoardManager_Data.pdb
