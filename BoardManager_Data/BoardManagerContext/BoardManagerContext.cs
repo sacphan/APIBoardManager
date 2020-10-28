@@ -29,7 +29,7 @@ namespace BoardManager_Data.BoardManagerContext
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(" Data Source=DESKTOP-12J6D6C\\SQLEXPRESS;Initial Catalog=BoardManager;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Data Source=103.1.210.65;Initial Catalog=BoardManager;Integrated Security=False;Persist Security Info=False;User ID=testDB;Password=1234Bbbb!!@@");
             }
         }
 
