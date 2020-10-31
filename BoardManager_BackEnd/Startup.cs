@@ -32,7 +32,7 @@ namespace BoardManager_BackEnd
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000",
+                        builder.WithOrigins("https://boardmanagerfrontend.herokuapp.com",
                                             "http://www.contoso.com");
                     });
             });
