@@ -27,15 +27,12 @@ namespace BoardManager_BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddCors(options =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.WithOrigins("https://boardmanagerfrontend.herokuapp.com",
-                                            "http://www.contoso.com");
-                    });
-            });
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddSingleton<IBoardService, BoardService>();
         }
 
@@ -51,7 +48,7 @@ namespace BoardManager_BackEnd
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
