@@ -1,6 +1,6 @@
 using System;
 
-namespace BoardManger_FrontEnd
+namespace BoardManager_BackEnd
 {
     public class WeatherForecast
     {

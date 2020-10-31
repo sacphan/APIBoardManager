@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace BoardManger_FrontEnd
+namespace BoardManager_BackEnd
 {
     public class Program
     {
