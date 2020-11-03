@@ -12,7 +12,7 @@ namespace BoardManger_FrontEnd.Controllers
 {
     //[Route("api/[controller]")]
     [ApiController]
-    [EnableCors("MyPolicy")]
+  
     public class BoardController : ControllerBase
     {
         private IBoardService _boardService;

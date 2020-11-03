@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoardManager_Data\BoardManager_Data.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BoardManager_Core\BoardManager_Core.csproj" />
+    <ProjectReference Include="..\BoardManager_Model\BoardManager_Model.csproj" />
     <ProjectReference Include="..\BoardManager_Service\BoardManager_Service.csproj" />
   </ItemGroup>
 
