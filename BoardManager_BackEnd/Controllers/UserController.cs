@@ -18,9 +18,10 @@ namespace BoardManager_BackEnd.Controllers
 {
    
     [ApiController]
-
-    public class UserController : ControllerBase
+    [Authorize]
+    public class UserController : BaseController
     {
+        
         private IConfiguration _config;
         private IUserService _IUserService;
         private ITokenService _TokenService;
@@ -35,7 +36,7 @@ namespace BoardManager_BackEnd.Controllers
         [Route("api/login")]
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(JObject login)
+        public IActionResult Login([FromBody] JObject login)
         {
          
             //IActionResult response = Unauthorized();
@@ -48,9 +49,10 @@ namespace BoardManager_BackEnd.Controllers
                 if (!login.TryGetValue("password", out jToken)) return Ok(error.Failed("password invalid."));
                 var password = jToken.Value<string>();
 
-                var result = _IUserService.Login(username, password.EncryptMd5());
+                var result = _IUserService.Login(username, password);
                 if (result.Code == Error.SUCCESS.Code)
                 {
+                    _User = result.GetData<UsersAccount>();
                     var token = _TokenService.CreateToken(result.GetData<UsersAccount>());
                     return Ok(error.SetData(token));
                 }
@@ -67,7 +69,7 @@ namespace BoardManager_BackEnd.Controllers
 
         [Route("api/refreshtoken")]
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult RefreshToken(JObject RefreshToken)
         {
             var error = new ErrorObject(Error.SUCCESS);
@@ -91,9 +93,45 @@ namespace BoardManager_BackEnd.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                error.Failed(ex.Message);
             }
+            return Ok(error);
         }
-       
+        [Route("api/updateProfile")]
+        [HttpPost]   
+        public IActionResult UpdateProfile([FromBody]UserProfile userProfile)
+        {
+            var error = new ErrorObject(Error.SUCCESS);
+            try
+            {
+                userProfile.Id = _User.UserProfileId;
+                error = _IUserService.UpdateProfile(userProfile);
+               
+            }
+            catch (Exception ex)
+            {
+                error.Failed(ex.Message);
+            }
+            return Ok(error);
+        }
+        [Route("api/Profile")]
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            var error = new ErrorObject(Error.SUCCESS);
+            try
+            {
+                
+                error = _IUserService.Profile(_User.UserProfileId);
+
+            }
+            catch (Exception ex)
+            {
+                error.Failed(ex.Message);
+            }
+            return Ok(error.GetData<UserProfile>());
+        }
+
+
     }
 }

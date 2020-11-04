@@ -25,10 +25,6 @@ namespace BoardManager_BackEnd.Controllers
             _boardService = boardService;
         }
 
-        [HttpGet]
-        public IEnumerable<Board> Get()
-        {
-            return _boardService.getAllBoard();
-        }
+       
     }
 }
