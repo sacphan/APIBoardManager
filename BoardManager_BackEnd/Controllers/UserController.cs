@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using AutoMapper;
 using BoardManager_Data.BoardManagerContext.Models;
 using BoardManager_Model;
 using BoardManager_Service.Token;
@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal;
 
 namespace BoardManager_BackEnd.Controllers
 {
@@ -25,13 +27,13 @@ namespace BoardManager_BackEnd.Controllers
         private IConfiguration _config;
         private IUserService _IUserService;
         private ITokenService _TokenService;
-       
-        public UserController(IConfiguration config, IUserService userService, ITokenService tokenService)
+        private IMapper _Mapper;
+        public UserController(IConfiguration config, IUserService userService, ITokenService tokenService,IMapper mapper)
         {
             _config = config;
             _IUserService = userService;
             _TokenService = tokenService;
-          
+            _Mapper = mapper;
         }
         [Route("api/login")]
         [AllowAnonymous]
@@ -52,7 +54,7 @@ namespace BoardManager_BackEnd.Controllers
                 var result = _IUserService.Login(username, password);
                 if (result.Code == Error.SUCCESS.Code)
                 {
-                    _User = result.GetData<UsersAccount>();
+                 
                     var token = _TokenService.CreateToken(result.GetData<UsersAccount>());
                     return Ok(error.SetData(token));
                 }
@@ -66,7 +68,31 @@ namespace BoardManager_BackEnd.Controllers
                 return Ok(error.System(ex));
             }
         }
+        [Route("api/register")]
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Register([FromBody] RegisterModel model)
+        {
 
+            //IActionResult response = Unauthorized();
+            var error = new ErrorObject(Error.SUCCESS);
+            try
+            {
+                var userinfo = _Mapper.Map<UserInfo>(model);
+                error = _IUserService.CreateUser(userinfo);
+                if (error.Code == Error.SUCCESS.Code)
+                {
+                    _User = error.GetData<UsersAccount>();
+                    var token = _TokenService.CreateToken(error.GetData<UsersAccount>());
+                    return Ok(error.SetData(token));
+                }
+                return Ok(error);             
+            }
+            catch (Exception ex)
+            {
+                return Ok(error.System(ex));
+            }
+        }
         [Route("api/refreshtoken")]
         [HttpPost]
         [AllowAnonymous]

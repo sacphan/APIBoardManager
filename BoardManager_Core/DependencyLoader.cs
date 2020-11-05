@@ -1,7 +1,11 @@
+using AutoMapper;
 using BoardManager_Service.Boards;
 using BoardManager_Service.Caching;
 using BoardManager_Service.Token;
 using BoardManager_Service.Users;
+using BoardManager_Service.WorkContext;
+using BoardManager_Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -31,6 +35,15 @@ namespace BoardManager_Core
                         serviceCollection.AddSingleton<IUserService, UserService>();
                         serviceCollection.AddSingleton<IBoardService, BoardService>();
                         serviceCollection.AddSingleton<ITokenService, TokenService>();
+                        serviceCollection.AddSingleton<IWorkContext, ApiWorkContext>();
+                        serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                        var mappingConfig = new MapperConfiguration(mc =>
+                        {
+                            mc.AddProfile(new AutoMapperProfile());
+                        });
+                        IMapper mapper = mappingConfig.CreateMapper();
+                        serviceCollection.AddSingleton(mapper);
+
                         break;
                 }
             }

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using BoardManager_Core;
-using BoardManager_Service.Boards;
-using BoardManager_Service.Caching;
-using BoardManager_Service.Token;
-using BoardManager_Service.Users;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +32,7 @@ namespace BoardManager_BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+           
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()

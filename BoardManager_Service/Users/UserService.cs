@@ -33,7 +33,8 @@ namespace BoardManager_Service.Users
                 }
                 db.UsersAccount.Add(user.userAccount);
                 db.UserProfile.Add(user.UserProfile);
-                return db.SaveChanges() > 0 ? error : error.Failed("Create user failed");
+                return db.SaveChanges() > 0 ? error.SetData(user) : error.Failed("Create user failed");
+
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
@@ -15,6 +16,7 @@
     <ProjectReference Include="..\BoardManager_Core\BoardManager_Core.csproj" />
     <ProjectReference Include="..\BoardManager_Model\BoardManager_Model.csproj" />
     <ProjectReference Include="..\BoardManager_Service\BoardManager_Service.csproj" />
+    <ProjectReference Include="..\BoardManager_Utilities\BoardManager_Utilities.csproj" />
   </ItemGroup>
 
 

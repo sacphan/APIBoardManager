@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BoardManager_Data.BoardManagerContext.Models
 {
@@ -15,6 +16,7 @@ namespace BoardManager_Data.BoardManagerContext.Models
         [StringLength(100)]
         public string UserName { get; set; }
         [StringLength(100)]
+        [JsonIgnore]
         public string PassWord { get; set; }
 
         [ForeignKey(nameof(UserProfileId))]

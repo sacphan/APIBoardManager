@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoardManager_Data\BoardManager_Data.csproj" />
-    <ProjectReference Include="..\BoardManager_Model\BoardManager_Model.csproj" />
     <ProjectReference Include="..\BoardManager_Utilities\BoardManager_Utilities.csproj" />
   </ItemGroup>
 
