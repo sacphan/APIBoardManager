@@ -37,5 +37,19 @@ namespace BoardManger_FrontEnd.Controllers
             board.UserProfileId = _User.UserProfileId;
             return Ok(_boardService.addBoard(board));
         }
+        [Route("api/BoardController/delete/{id}")]
+        
+        public IActionResult addBoard( int id)
+        {
+           
+            return Ok(_boardService.deleteBoard(id));
+        }
+        [Route("api/BoardController/edit")]
+
+        public IActionResult editBoard(Board board)
+        {
+
+            return Ok(_boardService.editBoard(board));
+        }
     }
 }

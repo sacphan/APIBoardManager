@@ -10,7 +10,7 @@ namespace BoardManager_Service.Boards
     {
         List<Board> getAllBoard(int UserId);
         ErrorObject editBoard(Board board);
-        ErrorObject deleteBoard(Board board);
+        ErrorObject deleteBoard(int id);
         ErrorObject addBoard(Board board);
     }
 }

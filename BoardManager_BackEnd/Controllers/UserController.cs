@@ -71,18 +71,18 @@ namespace BoardManager_BackEnd.Controllers
         [Route("api/register")]
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Register([FromBody] RegisterModel model)
+        public IActionResult Register([FromBody] UserProfile userProfile)
         {
 
             //IActionResult response = Unauthorized();
             var error = new ErrorObject(Error.SUCCESS);
             try
             {
-                var userinfo = _Mapper.Map<UserInfo>(model);
-                error = _IUserService.CreateUser(userinfo);
+                //var userinfo = _Mapper.Map<UserInfo>(model);
+                error = _IUserService.CreateUser(userProfile);
                 if (error.Code == Error.SUCCESS.Code)
                 {
-                    _User = error.GetData<UsersAccount>();
+                  
                     var token = _TokenService.CreateToken(error.GetData<UsersAccount>());
                     return Ok(error.SetData(token));
                 }

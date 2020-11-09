@@ -48,14 +48,14 @@ namespace BoardManager_Service.Boards
 			return error;
 		}
 	
-		public ErrorObject deleteBoard(Board board)
+		public ErrorObject deleteBoard(int id)
 		{
 			var error = new ErrorObject(Error.SUCCESS);
 			try
 			{
 				using (var db = new BoardManagerContext())
 				{
-					var boardremove = db.Board.FirstOrDefault(b=>b.Id==board.Id);
+					var boardremove = db.Board.FirstOrDefault(b=>b.Id== id);
 					db.Board.Remove(boardremove);
 					db.SaveChanges();
 				}
@@ -77,6 +77,7 @@ namespace BoardManager_Service.Boards
 					var boardEdit = db.Board.FirstOrDefault(b => b.Id == board.Id);
 					boardEdit.Name = board.Name;
 					db.SaveChanges();
+					error.SetData(boardEdit);
 				}
 			}
 			catch (Exception ex)

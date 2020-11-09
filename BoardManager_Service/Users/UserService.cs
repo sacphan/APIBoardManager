@@ -18,23 +18,27 @@ namespace BoardManager_Service.Users
         {
             _cacheService = cacheService;
         }
-        public ErrorObject CreateUser(UserInfo user)
+        public ErrorObject CreateUser(UserProfile user)
         {
             var error = Error.Success();
             try
             {
-                user.userAccount.PassWord = user.userAccount.PassWord.EncryptMd5();
+                var userAccount = user.UsersAccount.First();
+                userAccount.PassWord = userAccount.PassWord.EncryptMd5();
 
                 var db = new BoardManagerContext();
                 //check username conflict
-                if (db.UsersAccount.Any(x => x.UserName.ToLower().Equals(user.userAccount.UserName.ToLower())))
+                if (db.UsersAccount.Any(x => x.UserName.ToLower().Equals(userAccount.UserName.ToLower())))
                 {
                     return Error.USER_EXISTED;
+                }             
+                db.UserProfile.Add(user);
+                if (db.SaveChanges() > 0) {
+                    userAccount.UserProfile.UsersAccount = null;
+                    return error.SetData(userAccount);
                 }
-                db.UsersAccount.Add(user.userAccount);
-                db.UserProfile.Add(user.UserProfile);
-                return db.SaveChanges() > 0 ? error.SetData(user) : error.Failed("Create user failed");
-
+                
+                return error.Failed("Create user failed");                
             }
             catch (Exception ex)
             {
@@ -48,7 +52,7 @@ namespace BoardManager_Service.Users
             try
             {
                 using var db = new BoardManagerContext();
-                var user = db.UsersAccount.FirstOrDefault(x => x.UserName.ToLower().Equals(Username.ToLower()) && x.PassWord.Equals(Password));
+                var user = db.UsersAccount.FirstOrDefault(x => x.UserName.ToLower().Equals(Username.ToLower()) && x.PassWord.Equals(Password.EncryptMd5()));
                 if (user != null)
                 {
                     return error.SetData(user);
