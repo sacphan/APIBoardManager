@@ -12,5 +12,6 @@ namespace BoardManager_Service.Boards
         ErrorObject editBoard(Board board);
         ErrorObject deleteBoard(int id);
         ErrorObject addBoard(Board board);
+        ErrorObject getListBoardDetail(int boardId, int userId);
     }
 }

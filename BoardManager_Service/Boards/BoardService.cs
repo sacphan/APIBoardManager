@@ -5,7 +5,7 @@ using BoardManager_Data.BoardManagerContext.Models;
 using BoardManager_Data.BoardManagerContext;
 using System.Linq;
 using BoardManager_Model;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace BoardManager_Service.Boards
 {
@@ -78,6 +78,26 @@ namespace BoardManager_Service.Boards
 					boardEdit.Name = board.Name;
 					db.SaveChanges();
 					error.SetData(boardEdit);
+				}
+			}
+			catch (Exception ex)
+			{
+
+				error.Failed(ex.Message);
+			}
+			return error;
+		}
+		public ErrorObject getListBoardDetail(int boardId,int userId)
+		{
+			var error = new ErrorObject(Error.SUCCESS);
+			try
+			{
+				using (var db = new BoardManagerContext())
+				{
+					var board = db.Board.FirstOrDefault(b => b.Id == boardId && b.UserProfileId == userId);
+					var listCloumn_mapping_board = db.ColumnMappingBoard.Where(m => m.BoardId == board.Id).ToList().Select(m=>m.Id).ToList();
+					var listColumnBoard = db.ColumnBoard.Where(b => listCloumn_mapping_board.Contains(b.Id)).Include(c=>c.BoardDetail).ToList();			
+					error.SetData(listColumnBoard);
 				}
 			}
 			catch (Exception ex)

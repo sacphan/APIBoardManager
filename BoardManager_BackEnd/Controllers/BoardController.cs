@@ -39,7 +39,7 @@ namespace BoardManger_FrontEnd.Controllers
         }
         [Route("api/BoardController/delete/{id}")]
         
-        public IActionResult addBoard( int id)
+        public IActionResult deleteBoard( int id)
         {
            
             return Ok(_boardService.deleteBoard(id));
@@ -50,6 +50,11 @@ namespace BoardManger_FrontEnd.Controllers
         {
 
             return Ok(_boardService.editBoard(board));
+        }
+        [Route("api/BoardController/getListBoardDetail/{boardId}")]
+        public IActionResult getListBoardDetail(int boardId)
+        {
+            return Ok(_boardService.getListBoardDetail(boardId,_User.UserProfileId));
         }
     }
 }
