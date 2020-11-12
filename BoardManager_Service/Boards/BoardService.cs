@@ -96,8 +96,33 @@ namespace BoardManager_Service.Boards
 				{
 					var board = db.Board.FirstOrDefault(b => b.Id == boardId && b.UserProfileId == userId);
 					var listCloumn_mapping_board = db.ColumnMappingBoard.Where(m => m.BoardId == board.Id).ToList().Select(m=>m.Id).ToList();
-					var listColumnBoard = db.ColumnBoard.Where(b => listCloumn_mapping_board.Contains(b.Id)).Include(c=>c.BoardDetail).ToList();			
+					var listColumnBoard = db.ColumnBoard.Where(b => listCloumn_mapping_board.Contains(b.Id)).Include(c=>c.BoardDetail).ToList();
+					if (listColumnBoard.Count()==0)
+					{
+						listColumnBoard = db.ColumnBoard.Where(c => c.Id <= 3).ToList();
+					}
 					error.SetData(listColumnBoard);
+				}
+			}
+			catch (Exception ex)
+			{
+
+				error.Failed(ex.Message);
+			}
+			return error;
+		}
+
+		public ErrorObject addBoardDetail(BoardDetail boardDetail)
+		{
+			var error = new ErrorObject(Error.SUCCESS);
+			try
+			{
+				using (var db = new BoardManagerContext())
+				{
+					
+					db.BoardDetail.Add(boardDetail);
+					db.SaveChanges();
+					error.SetData(boardDetail);
 				}
 			}
 			catch (Exception ex)

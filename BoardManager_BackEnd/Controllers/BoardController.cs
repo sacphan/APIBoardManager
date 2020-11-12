@@ -56,5 +56,12 @@ namespace BoardManger_FrontEnd.Controllers
         {
             return Ok(_boardService.getListBoardDetail(boardId,_User.UserProfileId));
         }
+        [Route("api/BoardController/addBoardDetail")]
+        [HttpPost]
+        public IActionResult AddBoardDetail([FromBody] BoardDetail boardDetail)
+        {
+            return Ok(_boardService.addBoardDetail(boardDetail));
+
+        }
     }
 }
