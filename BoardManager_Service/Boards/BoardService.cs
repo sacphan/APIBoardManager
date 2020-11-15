@@ -35,8 +35,18 @@ namespace BoardManager_Service.Boards
 			{
 				using (var db = new BoardManagerContext())
 				{
+
+					
 					db.Board.Add(board);
-					db.SaveChanges();
+
+					if (db.SaveChanges() > 0) 
+					{
+						db.ColumnMappingBoard.Add(new ColumnMappingBoard() { ColumnBoardId = 1, BoardId = board.Id });
+						db.ColumnMappingBoard.Add(new ColumnMappingBoard() { ColumnBoardId = 2, BoardId = board.Id });
+						db.ColumnMappingBoard.Add(new ColumnMappingBoard() { ColumnBoardId = 3, BoardId = board.Id });
+						db.SaveChanges();
+					};
+					
 					error.SetData(board);
 				}
 			}
@@ -95,11 +105,15 @@ namespace BoardManager_Service.Boards
 				using (var db = new BoardManagerContext())
 				{
 					var board = db.Board.FirstOrDefault(b => b.Id == boardId && b.UserProfileId == userId);
-					var listCloumn_mapping_board = db.ColumnMappingBoard.Where(m => m.BoardId == board.Id).ToList().Select(m=>m.Id).ToList();
+					var listCloumn_mapping_board = db.ColumnMappingBoard.Where(m => m.BoardId == board.Id).ToList().Select(m=>m.ColumnBoardId).ToList();
 					var listColumnBoard = db.ColumnBoard.Where(b => listCloumn_mapping_board.Contains(b.Id)).Include(c=>c.BoardDetail).ToList();
 					if (listColumnBoard.Count()==0)
 					{
 						listColumnBoard = db.ColumnBoard.Where(c => c.Id <= 3).ToList();
+					}
+					else
+					{
+						listColumnBoard.ForEach(lc => lc.BoardDetail = lc.BoardDetail.Where(bd => bd.BoardId == board.Id).ToList());
 					}
 					error.SetData(listColumnBoard);
 				}
@@ -123,6 +137,46 @@ namespace BoardManager_Service.Boards
 					db.BoardDetail.Add(boardDetail);
 					db.SaveChanges();
 					error.SetData(boardDetail);
+				}
+			}
+			catch (Exception ex)
+			{
+
+				error.Failed(ex.Message);
+			}
+			return error;
+		}
+		public ErrorObject editBoardDetail(BoardDetail boardDetail)
+		{
+			var error = new ErrorObject(Error.SUCCESS);
+			try
+			{
+				using (var db = new BoardManagerContext())
+				{
+					var boarddt = db.BoardDetail.FirstOrDefault(bd => bd.Id == boardDetail.Id);
+					boarddt.Content = boardDetail.Content;					
+					db.SaveChanges();
+					error.SetData(boarddt);
+				}
+			}
+			catch (Exception ex)
+			{
+
+				error.Failed(ex.Message);
+			}
+			return error;
+		}
+		public ErrorObject deleteBoardDetail(BoardDetail boardDetail)
+		{
+			var error = new ErrorObject(Error.SUCCESS);
+			try
+			{
+				using (var db = new BoardManagerContext())
+				{
+					var boardDelete = db.BoardDetail.FirstOrDefault(b => b.Id == boardDetail.Id);
+					 db.BoardDetail.Remove(boardDelete);
+					db.SaveChanges();
+					
 				}
 			}
 			catch (Exception ex)

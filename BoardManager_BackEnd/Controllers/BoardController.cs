@@ -63,5 +63,19 @@ namespace BoardManger_FrontEnd.Controllers
             return Ok(_boardService.addBoardDetail(boardDetail));
 
         }
+        [Route("api/BoardController/editBoardDetail")]
+        [HttpPost]
+        public IActionResult EditBoardDetail([FromBody] BoardDetail boardDetail)
+        {
+            return Ok(_boardService.editBoardDetail(boardDetail));
+
+        }
+        [Route("api/BoardController/deleteBoardDetail")]
+        [HttpPost]
+        public IActionResult DeleteBoardDetail([FromBody] BoardDetail boardDetail)
+        {
+            return Ok(_boardService.deleteBoardDetail(boardDetail));
+
+        }
     }
 }
