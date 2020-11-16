@@ -12,5 +12,6 @@ namespace BoardManager_Service.Users
         ErrorObject Login(string Username, string Password);
         ErrorObject UpdateProfile(UserProfile userProfile);
         ErrorObject Profile(int id);
+        ErrorObject LoginFacebook(LoginFacebook loginFacebook);
     }
 }

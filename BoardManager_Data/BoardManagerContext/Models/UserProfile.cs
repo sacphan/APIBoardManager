@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace BoardManager_Data.BoardManagerContext.Models
 {
@@ -32,7 +31,6 @@ namespace BoardManager_Data.BoardManagerContext.Models
         public virtual ICollection<FacebookAccount> FacebookAccount { get; set; }
         [InverseProperty("UserProfile")]
         public virtual ICollection<GoogleAccount> GoogleAccount { get; set; }
-        [JsonIgnore]
         [InverseProperty("UserProfile")]
         public virtual ICollection<UsersAccount> UsersAccount { get; set; }
     }

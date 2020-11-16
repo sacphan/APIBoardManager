@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BoardManager_Data.BoardManagerContext.Models
 {
-    [Table("Facebook_Account")]
     public partial class FacebookAccount
     {
         [Key]
+        public int Id { get; set; }
         [Column("User_Profile_Id")]
-        public int UserProfileId { get; set; }
-        [Key]
+        public int? UserProfileId { get; set; }
         [Column("Facebook_Id")]
-        public int FacebookId { get; set; }
+        [StringLength(100)]
+        public string FacebookId { get; set; }
+        [StringLength(100)]
+        public string UserName { get; set; }
 
         [ForeignKey(nameof(UserProfileId))]
         [InverseProperty("FacebookAccount")]

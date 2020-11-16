@@ -17,7 +17,7 @@ namespace BoardManager_BackEnd.Controllers
         protected IWorkContext _WorkContext = EngineContext.Resolve<IWorkContext>();
       
 
-        public UsersAccount _User { get => _WorkContext.CurrentUser; set => _WorkContext.CurrentUser = value; }
+        public UserProfile _User { get => _WorkContext.CurrentUser; set => _WorkContext.CurrentUser = value; }
 
     }
 }

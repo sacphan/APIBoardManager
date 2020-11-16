@@ -110,5 +110,34 @@ namespace BoardManager_Service.Users
                 return error.Failed(ex.Message);
             }
         }
+        public ErrorObject LoginFacebook(LoginFacebook  loginFacebook)
+        {
+            var error = Error.Success();
+            try
+            {
+                using var db = new BoardManagerContext();
+                var userProfile = new UserProfile
+                {
+                    Email = loginFacebook.Email,
+                    
+                    FacebookAccount = new List<FacebookAccount>()
+                    {
+                        new FacebookAccount()
+                        {
+                            FacebookId = loginFacebook.FacebookId,
+                            UserName = loginFacebook.Name
+                        }
+                        
+                    }
+                };
+                db.UserProfile.Add(userProfile);
+                db.SaveChanges();
+                return error.SetData(userProfile);
+            }
+            catch (Exception ex)
+            {
+                return error.Failed(ex.Message);
+            }
+        }
     }
 }

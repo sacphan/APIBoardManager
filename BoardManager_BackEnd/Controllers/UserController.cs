@@ -55,7 +55,7 @@ namespace BoardManager_BackEnd.Controllers
                 if (result.Code == Error.SUCCESS.Code)
                 {
                  
-                    var token = _TokenService.CreateToken(result.GetData<UsersAccount>());
+                    var token = _TokenService.CreateToken(result.GetData<UserProfile>());
                     return Ok(error.SetData(token));
                 }
                 else
@@ -83,7 +83,7 @@ namespace BoardManager_BackEnd.Controllers
                 if (error.Code == Error.SUCCESS.Code)
                 {
                   
-                    var token = _TokenService.CreateToken(error.GetData<UsersAccount>());
+                    var token = _TokenService.CreateToken(error.GetData<UserProfile>());
                     return Ok(error.SetData(token));
                 }
                 return Ok(error);             
@@ -157,7 +157,31 @@ namespace BoardManager_BackEnd.Controllers
             }
             return Ok(error.GetData<UserProfile>());
         }
+        [Route("api/loginFacebook")]
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult LoginFaceBook([FromBody] LoginFacebook LoginFacebook)
+        {
 
+            //IActionResult response = Unauthorized();
+            var error = new ErrorObject(Error.SUCCESS);
+            try
+            {
+                //var userinfo = _Mapper.Map<UserInfo>(model);
+                error = _IUserService.LoginFacebook(LoginFacebook);
+                if (error.Code == Error.SUCCESS.Code)
+                {
+                   
+                    var token = _TokenService.CreateToken(error.GetData<UserProfile>());
+                    return Ok(error.SetData(token));
+                }
+                return Ok(error);
+            }
+            catch (Exception ex)
+            {
+                return Ok(error.System(ex));
+            }
+        }
 
     }
 }

@@ -8,7 +8,7 @@ namespace BoardManager_Service.Token
 {
     public interface ITokenService
     {
-        AuthToken CreateToken(UsersAccount user);
+        AuthToken CreateToken(UserProfile user);
         AuthToken RefreshToken(string RefreshToken);
     }
 }

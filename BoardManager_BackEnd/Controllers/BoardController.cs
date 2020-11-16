@@ -28,7 +28,7 @@ namespace BoardManger_FrontEnd.Controllers
         [HttpGet]
         public List<Board> getAllBoards()
         {
-            return _boardService.getAllBoard(_User.UserProfileId);
+            return _boardService.getAllBoard(_User.U);
         }
         [Route("api/BoardController/addBoard")]
         [HttpPost]

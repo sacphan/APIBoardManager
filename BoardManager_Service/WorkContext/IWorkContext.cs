@@ -6,7 +6,7 @@ namespace BoardManager_Service.WorkContext
 {
     public interface IWorkContext
     {
-        UsersAccount CurrentUser { get; set; }
+        UserProfile CurrentUser { get; set; }
 
         UsersAccount GetUserCookie();
         void SetUserCookie();

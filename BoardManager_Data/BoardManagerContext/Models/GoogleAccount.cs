@@ -5,15 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BoardManager_Data.BoardManagerContext.Models
 {
-    [Table("Google_Account")]
     public partial class GoogleAccount
     {
         [Key]
+        public int Id { get; set; }
         [Column("User_Profile_Id")]
-        public int UserProfileId { get; set; }
-        [Key]
+        public int? UserProfileId { get; set; }
         [Column("Google_Id")]
-        public int GoogleId { get; set; }
+        [StringLength(100)]
+        public string GoogleId { get; set; }
+        [StringLength(100)]
+        public string UserName { get; set; }
 
         [ForeignKey(nameof(UserProfileId))]
         [InverseProperty("GoogleAccount")]

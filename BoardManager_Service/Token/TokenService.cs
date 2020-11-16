@@ -23,16 +23,18 @@ namespace BoardManager_Service.Token
             _Configuration = configuration;
             _CacheService = cacheService;
         }
-        public AuthToken CreateToken(UsersAccount user)
+        public AuthToken CreateToken(UserProfile user)
         {
             try
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                user.FacebookAccount.ToArray()[0].UserProfile = null;
+                user.GoogleAccount.ToArray()[0].UserProfile = null;
                 var claims = new[] {
                     new Claim("Id", user.Id.ToString()),
-                    new Claim("User", user.ToJson()),
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("UserProfile", user.ToJson()),
+                    new Claim(ClaimTypes.Email, user.Email),
                
                 };
                 var token = new JwtSecurityToken(_Configuration["Jwt:Issuer"],
@@ -69,7 +71,7 @@ namespace BoardManager_Service.Token
                 if (user != null)
                 {
                     _CacheService.Remove(cacheKey);
-                    return CreateToken(user);
+                    return CreateToken(user.UserProfile);
                 }
                 return null;
             }

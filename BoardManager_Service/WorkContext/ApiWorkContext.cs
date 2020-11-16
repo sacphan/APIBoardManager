@@ -22,12 +22,12 @@ namespace BoardManager_Service.WorkContext
             _UserService = userService;
           
         }
-        public UsersAccount CurrentUser
+        public UserProfile CurrentUser
         {
             get
             {
                 var user = _HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x=>x.Type.Equals("User")).Value;
-                return user.JsonToObject<UsersAccount>();
+                return user.JsonToObject<UserProfile>();
             }
             set
             {
