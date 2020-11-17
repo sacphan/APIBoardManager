@@ -15,7 +15,7 @@ namespace BoardManger_FrontEnd.Controllers
     //[Route("api/[controller]")]
     [ApiController]
 
-    [Authorize]
+ 
     public class BoardController : BaseController
     {
         private IBoardService _boardService;
