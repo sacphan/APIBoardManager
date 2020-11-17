@@ -36,7 +36,7 @@ namespace BoardManager_Service.Users
                 db.UserProfile.Add(user);
                 if (db.SaveChanges() > 0) {
                     userAccount.UserProfile.UsersAccount = null;
-                    return error.SetData(userAccount);
+                    return error.SetData(userAccount.UserProfile);
                 }
                 
                 return error.Failed("Create user failed");                

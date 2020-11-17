@@ -34,10 +34,11 @@ namespace BoardManger_FrontEnd.Controllers
         [AllowAnonymous]
         [Route("api/BoardController/addBoard")]
         [HttpPost]
-        public IActionResult addBoard(/*[FromBody] Board board*/)
+        public IActionResult addBoard([FromBody] Board board)
         {
-            //board.UserProfileId = _User.Id;
-            return Ok("CC");
+            board.UserProfileId = _User.Id;
+           
+            return Ok(_boardService.addBoard(board));
         }
         [Route("api/BoardController/delete/{id}")]
         [AllowAnonymous]
