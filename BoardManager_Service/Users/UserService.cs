@@ -3,6 +3,7 @@ using BoardManager_Data.BoardManagerContext.Models;
 using BoardManager_Model;
 using BoardManager_Service.Caching;
 using BoardManager_Utilities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,7 @@ namespace BoardManager_Service.Users
             {
                 using var db = new BoardManagerContext();
                 var user = db.UsersAccount.FirstOrDefault(x => x.UserName.ToLower().Equals(Username.ToLower()) && x.PassWord.Equals(Password.EncryptMd5()));
+                user.UserProfile = db.UserProfile.FirstOrDefault(prop => prop.Id == user.UserProfileId);
                 if (user != null)
                 {
                     return error.SetData(user);
@@ -130,10 +132,53 @@ namespace BoardManager_Service.Users
                         
                     }
                 };
-                db.UserProfile.Add(userProfile);
-                db.SaveChanges();
-                return error.SetData(userProfile);
+                var listprofile = db.UserProfile.Where(p => p.Email.Equals(loginFacebook.Email)).Include(e =>e.FacebookAccount).ToList();
+                var profile = listprofile.FirstOrDefault(e => e.FacebookAccount.FirstOrDefault(f => f.UserName.Equals(loginFacebook.Name))!=null);
+                if (profile==null)
+                {
+                    db.UserProfile.Add(userProfile);
+                    db.SaveChanges();
+                    return error.SetData(userProfile);
+                }
+                return error.SetData(profile);
+            }    
+                
+            catch (Exception ex)
+            {
+                return error.Failed(ex.Message);
             }
+        }
+        public ErrorObject LoginGoogle(LoginGoogle loginGoogle)
+        {
+            var error = Error.Success();
+            try
+            {
+                using var db = new BoardManagerContext();
+                var userProfile = new UserProfile
+                {
+                    Email = loginGoogle.Email,
+
+                    GoogleAccount = new List<GoogleAccount>()
+                    {
+                        new GoogleAccount()
+                        {
+                            GoogleId = loginGoogle.GoogleId,
+                            UserName = loginGoogle.Name
+                        }
+
+                    }
+                };
+                var listprofile = db.UserProfile.Where(p => p.Email.Equals(loginGoogle.Email)).Include(e => e.GoogleAccount).ToList();
+                var profile = listprofile.FirstOrDefault(e => e.GoogleAccount.FirstOrDefault(f => f.UserName.Equals(loginGoogle.Name)) != null);
+                if (profile == null)
+                {
+                    db.UserProfile.Add(userProfile);
+                    db.SaveChanges();
+                    return error.SetData(userProfile);
+                }
+                return error.SetData(profile);
+            }
+
             catch (Exception ex)
             {
                 return error.Failed(ex.Message);

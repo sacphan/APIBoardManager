@@ -28,13 +28,13 @@ namespace BoardManger_FrontEnd.Controllers
         [HttpGet]
         public List<Board> getAllBoards()
         {
-            return _boardService.getAllBoard(_User.U);
+            return _boardService.getAllBoard(_User.Id);
         }
         [Route("api/BoardController/addBoard")]
         [HttpPost]
         public IActionResult addBoard([FromBody] Board board)
         {
-            board.UserProfileId = _User.UserProfileId;
+            board.UserProfileId = _User.Id;
             return Ok(_boardService.addBoard(board));
         }
         [Route("api/BoardController/delete/{id}")]
@@ -54,7 +54,7 @@ namespace BoardManger_FrontEnd.Controllers
         [Route("api/BoardController/getListBoardDetail/{boardId}")]
         public IActionResult getListBoardDetail(int boardId)
         {
-            return Ok(_boardService.getListBoardDetail(boardId,_User.UserProfileId));
+            return Ok(_boardService.getListBoardDetail(boardId,_User.Id));
         }
         [Route("api/BoardController/addBoardDetail")]
         [HttpPost]

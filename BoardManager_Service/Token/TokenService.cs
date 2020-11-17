@@ -29,11 +29,12 @@ namespace BoardManager_Service.Token
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                user.FacebookAccount.ToArray()[0].UserProfile = null;
-                user.GoogleAccount.ToArray()[0].UserProfile = null;
+                user.FacebookAccount = null;
+                user.GoogleAccount = null;
+                user.UsersAccount = null;
                 var claims = new[] {
                     new Claim("Id", user.Id.ToString()),
-                    new Claim("UserProfile", user.ToJson()),
+                    new Claim("User", user.ToJson()),
                     new Claim(ClaimTypes.Email, user.Email),
                
                 };

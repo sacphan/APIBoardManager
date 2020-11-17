@@ -55,7 +55,7 @@ namespace BoardManager_BackEnd.Controllers
                 if (result.Code == Error.SUCCESS.Code)
                 {
                  
-                    var token = _TokenService.CreateToken(result.GetData<UserProfile>());
+                    var token = _TokenService.CreateToken(result.GetData<UsersAccount>().UserProfile);
                     return Ok(error.SetData(token));
                 }
                 else
@@ -130,7 +130,7 @@ namespace BoardManager_BackEnd.Controllers
             var error = new ErrorObject(Error.SUCCESS);
             try
             {
-                userProfile.Id = _User.UserProfileId;
+                userProfile.Id = _User.Id;
                 error = _IUserService.UpdateProfile(userProfile);
                
             }
@@ -148,7 +148,7 @@ namespace BoardManager_BackEnd.Controllers
             try
             {
                 
-                error = _IUserService.Profile(_User.UserProfileId);
+                error = _IUserService.Profile(_User.Id);
 
             }
             catch (Exception ex)
@@ -172,6 +172,31 @@ namespace BoardManager_BackEnd.Controllers
                 if (error.Code == Error.SUCCESS.Code)
                 {
                    
+                    var token = _TokenService.CreateToken(error.GetData<UserProfile>());
+                    return Ok(error.SetData(token));
+                }
+                return Ok(error);
+            }
+            catch (Exception ex)
+            {
+                return Ok(error.System(ex));
+            }
+        }
+        [Route("api/loginGoogle")]
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult LoginGoogle([FromBody] LoginGoogle loginGoogle)
+        {
+
+            //IActionResult response = Unauthorized();
+            var error = new ErrorObject(Error.SUCCESS);
+            try
+            {
+                //var userinfo = _Mapper.Map<UserInfo>(model);
+                error = _IUserService.LoginGoogle(loginGoogle);
+                if (error.Code == Error.SUCCESS.Code)
+                {
+
                     var token = _TokenService.CreateToken(error.GetData<UserProfile>());
                     return Ok(error.SetData(token));
                 }
