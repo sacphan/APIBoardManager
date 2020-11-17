@@ -23,6 +23,11 @@ namespace BoardManager_BackEnd.Controllers
         public WeatherForecastController(IBoardService boardService)
         {
             _boardService = boardService;
+
+        }
+        public string[] Test()
+        {
+            return Summaries;
         }
 
        
