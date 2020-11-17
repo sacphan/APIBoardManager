@@ -35,7 +35,7 @@ namespace BoardManger_FrontEnd.Controllers
         public IActionResult addBoard([FromBody] Board board)
         {
             board.UserProfileId = _User.Id;
-            return Ok(_boardService.addBoard(board));
+            return Ok("CC");
         }
         [Route("api/BoardController/delete/{id}")]
         
