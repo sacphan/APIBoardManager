@@ -15,36 +15,40 @@ namespace BoardManger_FrontEnd.Controllers
     //[Route("api/[controller]")]
     [ApiController]
 
- 
+    [Authorize]
     public class BoardController : BaseController
     {
         private IBoardService _boardService;
-     
+       
         public BoardController(IBoardService boardService)
         {
             _boardService = boardService;
         }
+        [AllowAnonymous]
         [Route("api/BoardController/getAllBoards")]
         [HttpGet]
         public List<Board> getAllBoards()
         {
             return _boardService.getAllBoard(_User.Id);
         }
+        [AllowAnonymous]
         [Route("api/BoardController/addBoard")]
         [HttpPost]
-        public IActionResult addBoard([FromBody] Board board)
+        public IActionResult addBoard(/*[FromBody] Board board*/)
         {
-            board.UserProfileId = _User.Id;
+            //board.UserProfileId = _User.Id;
             return Ok("CC");
         }
         [Route("api/BoardController/delete/{id}")]
-        
+        [AllowAnonymous]
+
         public IActionResult deleteBoard( int id)
         {
            
             return Ok(_boardService.deleteBoard(id));
         }
         [Route("api/BoardController/edit")]
+        [AllowAnonymous]
 
         public IActionResult editBoard(Board board)
         {
@@ -52,11 +56,13 @@ namespace BoardManger_FrontEnd.Controllers
             return Ok(_boardService.editBoard(board));
         }
         [Route("api/BoardController/getListBoardDetail/{boardId}")]
+        [AllowAnonymous]
         public IActionResult getListBoardDetail(int boardId)
         {
             return Ok(_boardService.getListBoardDetail(boardId,_User.Id));
         }
         [Route("api/BoardController/addBoardDetail")]
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult AddBoardDetail([FromBody] BoardDetail boardDetail)
         {
@@ -64,6 +70,7 @@ namespace BoardManger_FrontEnd.Controllers
 
         }
         [Route("api/BoardController/editBoardDetail")]
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult EditBoardDetail([FromBody] BoardDetail boardDetail)
         {
@@ -71,6 +78,7 @@ namespace BoardManger_FrontEnd.Controllers
 
         }
         [Route("api/BoardController/deleteBoardDetail")]
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult DeleteBoardDetail([FromBody] BoardDetail boardDetail)
         {
