@@ -62,6 +62,13 @@ namespace BoardManger_FrontEnd.Controllers
         {
             return Ok(_boardService.getListBoardDetail(boardId,_User.Id));
         }
+
+        [Route("api/BoardController/getListBoardDetail/{boardId}/{userId}")]
+        [AllowAnonymous]
+        public IActionResult getListBoardDetail(int boardId,int userId)
+        {
+            return Ok(_boardService.getListBoardDetail(boardId, userId));
+        }
         [Route("api/BoardController/addBoardDetail")]
         [AllowAnonymous]
         [HttpPost]
